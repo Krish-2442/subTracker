@@ -14,13 +14,22 @@ const allowedOrigins = [
     'http://127.0.0.1:5173',
     'http://localhost:3000',
     'http://127.0.0.1:3000',
+    'https://subtracker-client.vercel.app',
     process.env.CLIENT_URL,
 ].filter(Boolean);
 
+const isOriginAllowed = (origin) => {
+    if (!origin) return true; // Allow non-browser requests (Postman, curl, server-to-server)
+    if (allowedOrigins.includes(origin)) return true;
+    if (/^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)) return true;
+    if (/^https:\/\/([a-zA-Z0-9-]+\.)*vercel\.app$/.test(origin)) return true;
+    if (/^https:\/\/([a-zA-Z0-9-]+\.)*onrender\.com$/.test(origin)) return true;
+    return false;
+};
+
 const corsOptions = {
     origin: (origin, callback) => {
-        // Allow requests with no origin (e.g., Postman, mobile apps, server-to-server) or localhost
-        if (!origin || allowedOrigins.includes(origin) || /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)) {
+        if (isOriginAllowed(origin)) {
             callback(null, true);
         } else {
             callback(new Error(`Blocked by CORS: ${origin}`));
