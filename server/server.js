@@ -1,7 +1,7 @@
+import { PORT } from './config/env.js'; // must be first
 import app from './app.js';
 import connectToDatabase from './database/mongodb.js';
 import { startBillingReminderJob } from './jobs/billing-reminder.job.js';
-import { PORT } from './config/env.js';
 
 const startServer = async () => {
     try {
