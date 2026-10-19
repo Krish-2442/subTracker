@@ -11,14 +11,16 @@ const app = express();
 // Whitelist local development and production URLs
 const allowedOrigins = [
     'http://localhost:5173',
+    'http://127.0.0.1:5173',
     'http://localhost:3000',
+    'http://127.0.0.1:3000',
     process.env.CLIENT_URL,
 ].filter(Boolean);
 
 const corsOptions = {
     origin: (origin, callback) => {
-        // Allow requests with no origin (e.g., Postman, mobile apps, server-to-server)
-        if (!origin || allowedOrigins.includes(origin)) {
+        // Allow requests with no origin (e.g., Postman, mobile apps, server-to-server) or localhost
+        if (!origin || allowedOrigins.includes(origin) || /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)) {
             callback(null, true);
         } else {
             callback(new Error(`Blocked by CORS: ${origin}`));

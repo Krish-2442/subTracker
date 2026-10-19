@@ -34,6 +34,11 @@ export const runBillingReminderJob = async () => {
 
         // Send email reminder if renewal is in 5 days or 2 days
         if (daysLeft === 5 || daysLeft === 2) {
+            // Avoid duplicate email if already sent for this milestone
+            if (sub.lastReminderDaysLeft === daysLeft) {
+                continue;
+            }
+
             try {
                 await sendBillingReminderEmail({
                     recipient: sub.userId,
@@ -41,6 +46,11 @@ export const runBillingReminderJob = async () => {
                     subscription: sub,
                     daysUntilBilling: daysLeft,
                 });
+                sub.lastReminderDaysLeft = daysLeft;
+                sub.lastReminderSentForDate = sub.nextBillingDate;
+                sub.lastNotifiedBillingDate = sub.nextBillingDate;
+                sub.lastNotifiedAt = new Date();
+                await sub.save();
                 console.log(`[Reminder] Sent to ${sub.userId.email} for "${sub.name}" (${daysLeft} days left)`);
             } catch (err) {
                 console.error(`[Reminder Error] Failed for "${sub.name}":`, err.message);

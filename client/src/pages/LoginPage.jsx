@@ -1,8 +1,11 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AlertCircle } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 const LoginPage = ({ onLogin }) => {
+    const auth = useAuth();
+    const handleLogin = onLogin || auth?.login;
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -24,7 +27,7 @@ const LoginPage = ({ onLogin }) => {
 
         setLoading(true);
         try {
-            await onLogin(email.trim(), password);
+            await handleLogin(email.trim(), password);
             navigate('/dashboard', { replace: true });
         } catch (err) {
             setError(err.response?.data?.message || 'Login failed. Please check your credentials.');

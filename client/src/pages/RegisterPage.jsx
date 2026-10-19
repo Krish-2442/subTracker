@@ -1,8 +1,11 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AlertCircle } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 const RegisterPage = ({ onRegister }) => {
+    const auth = useAuth();
+    const handleRegister = onRegister || auth?.register;
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -42,7 +45,7 @@ const RegisterPage = ({ onRegister }) => {
 
         setLoading(true);
         try {
-            await onRegister(name.trim(), email.trim(), password);
+            await handleRegister(name.trim(), email.trim(), password);
             navigate('/dashboard', { replace: true });
         } catch (err) {
             setError(err.response?.data?.message || 'Registration failed. Please try again.');
