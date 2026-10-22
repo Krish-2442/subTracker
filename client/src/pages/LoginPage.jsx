@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { AlertCircle } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom'; // link component is used to navigate between different routes in a React application without causing a full page reload. useNavigate is a hook that allows you to programmatically navigate to different routes.
+import { AlertCircle } from 'lucide-react'; // AlertCircle provides collection of icons
 import { useAuth } from '../context/AuthContext';
 
 const LoginPage = ({ onLogin }) => {

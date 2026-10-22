@@ -69,6 +69,26 @@ const SpendingChart = ({ data = [], totalMonthly = 0, loading = false }) => {
             <p className="mt-2 text-center text-sm font-semibold text-gray-800">
                 Total Monthly: ₹{total.toFixed(2)}
             </p>
+
+            {/* Chart Legend */}
+            <div className="mt-3 pt-3 border-t border-gray-100">
+                <div className="flex flex-wrap gap-x-4 gap-y-2 justify-center">
+                    {data.map((entry, index) => (
+                        <div key={entry.category || index} className="flex items-center gap-1.5">
+                            <span
+                                className="inline-block h-2.5 w-2.5 rounded-full flex-shrink-0"
+                                style={{ backgroundColor: COLORS[index % COLORS.length] }}
+                            />
+                            <span className="text-xs text-gray-600">
+                                {entry.category}
+                            </span>
+                            <span className="text-xs font-semibold text-gray-800">
+                                ₹{entry.amount.toFixed(2)}
+                            </span>
+                        </div>
+                    ))}
+                </div>
+            </div>
         </div>
     );
 };

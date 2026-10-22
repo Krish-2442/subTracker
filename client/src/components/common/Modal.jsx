@@ -1,3 +1,5 @@
+// Modal is a reusable component that renders a modal dialog with a title, content, and close button. It accepts props for isOpen (to control visibility), onClose (callback for closing the modal), title (modal title), and children (content of the modal). It also handles keyboard accessibility by closing the modal when the Escape key is pressed.
+// isOpen: A boolean prop that determines whether the modal is visible or not. When true, the modal is displayed; when false, it is hidden.
 import { useEffect, useId } from 'react';
 import { X } from 'lucide-react';
 

@@ -1,5 +1,6 @@
-import { useEffect, useId } from 'react';
-import { X } from 'lucide-react';
+// confirmDialog is display confirmation dialog box to confirm the deleting subscription.
+import { useEffect, useId } from 'react'; // useId is a React hook that generates a unique ID for accessibility purposes.
+import { X } from 'lucide-react'; // X provides a collection of icons, including the "X" icon used for closing the dialog.
 import Button from './Button';
 
 const ConfirmDialog = ({

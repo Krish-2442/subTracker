@@ -22,7 +22,7 @@ import {
 
 /* ─── Protected Route Wrapper ─── */
 const ProtectedRoute = ({ children }) => {
-    const { user, loading } = useAuth();
+    const { user, loading } = useAuth(); // useAuth is a custom hook that provides access to the authentication state and functions from the AuthContext. It returns an object containing the current user, loading state, and authentication functions like login, register, and logout.
 
     if (loading) {
         return (
@@ -33,7 +33,7 @@ const ProtectedRoute = ({ children }) => {
     }
 
     if (!user) {
-        return <Navigate to="/login" replace />;
+        return <Navigate to="/login" replace />; // replace means that the current entry in the history stack will be replaced with the new one.
     }
 
     return children;
@@ -43,7 +43,7 @@ const ProtectedRoute = ({ children }) => {
 const Dashboard = () => {
     const { user, logout } = useAuth();
 
-    const [subscriptions, setSubscriptions] = useState([]);
+    const [subscriptions, setSubscriptions] = useState([]); // subs
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -74,11 +74,12 @@ const Dashboard = () => {
         }
     };
 
+    // useEffect called on component mount to fetch subscriptions from the server. It runs only once.
     useEffect(() => {
         fetchSubscriptions();
     }, []);
 
-    // ─── 1. Calculate Summary Stats, Upcoming Renewals & Chart Data using simple for loops ───
+    // Calculate Summary Stats, Upcoming Renewals & Chart Data using simple for loops
     let monthlySpend = 0;
     let annualSpend = 0;
     let activeSubs = 0;
@@ -86,7 +87,7 @@ const Dashboard = () => {
     const upcomingRenewals = [];
 
     const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    today.setHours(0, 0, 0, 0); // Set to midnight for accurate date comparisons
 
     for (let i = 0; i < subscriptions.length; i++) {
         const sub = subscriptions[i];
@@ -153,7 +154,7 @@ const Dashboard = () => {
     // Sort upcoming renewals by nearest days left
     upcomingRenewals.sort((a, b) => a.days - b.days);
 
-    // ─── 2. Filter & Sort Subscriptions using plain if/else statements ───
+    // Filter & Sort Subscriptions
     const filteredSubscriptions = subscriptions.filter((sub) => {
         // Search filter
         if (filters.search) {
@@ -210,15 +211,15 @@ const Dashboard = () => {
         filters.sortBy !== 'nextBillingDate' ||
         filters.order !== 'asc';
 
-    // ─── 3. Action Handlers ───
+    // Action Handlers
     const handleAdd = () => {
         setEditing(null);
-        setModalOpen(true);
+        setModalOpen(true); // set modal open for adding a new subscription
     };
 
     const handleEdit = (sub) => {
         setEditing(sub);
-        setModalOpen(true);
+        setModalOpen(true); 
     };
 
     const handleDeleteClick = (id) => {
@@ -290,10 +291,17 @@ const Dashboard = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 text-gray-900 flex flex-col">
+        // flex-col ensure that the header and main content stack vertically
+        // flex ensures that the main content area can grow and fill the remaining space, allowing for a responsive layout
+        // tracking-tight can be used to adjust the letter spacing for better readability and visual appeal
+        // text-gray-900 here 900 is dark shade of gray
+        // shadow-sm adds a subtle shadow to the button for better visual separation and depth
+        // space-y-5 adds vertical spacing between child elements, improving readability and layout structure
+        // sm-px-6 adds horizontal padding on small screens and above.
+        <div className="min-h-screen bg-gray-50 text-gray-900 flex flex-col overflow-x-hidden"> 
             {/* Clean Dashboard Navbar */}
             <header className="bg-white border-b border-gray-200 sticky top-0 z-40">
-                <div className="mx-auto flex max-w-7xl items-center justify-between px-4 sm:px-6 py-3">
+                <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 sm:px-6 py-3">
                     <div className="flex items-center gap-2.5">
                         <div className="flex h-8 w-8 items-center justify-center rounded-md bg-gray-900 text-white font-bold text-xs tracking-wider">
                             ST
@@ -303,7 +311,7 @@ const Dashboard = () => {
                         </span>
                     </div>
 
-                    <div className="flex items-center gap-2.5 sm:gap-3">
+                    <div className="flex items-center flex-wrap gap-2.5 sm:gap-3">
                         <span className="text-xs sm:text-sm font-medium text-gray-700">
                             Welcome, {user?.name}
                         </span>
@@ -311,7 +319,7 @@ const Dashboard = () => {
                         <Button onClick={handleAdd}>
                             + Add Subscription
                         </Button>
-
+                    
                         <button
                             onClick={logout}
                             className="rounded-md border border-gray-300 bg-white px-3 py-2 text-xs font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-colors cursor-pointer shadow-sm"
@@ -322,8 +330,8 @@ const Dashboard = () => {
                 </div>
             </header>
 
-            {/* Main Content Area */}
-            <main className="mx-auto max-w-7xl space-y-5 px-4 sm:px-6 py-6 flex-1 w-full">
+            {/* Main Content Area here error && something means if there is an error then show the error message otherwise show the main content */}
+            <main className="mx-auto max-w-7xl space-y-5 px-4 sm:px-6 py-6 flex-1 w-full max-w-full">
                 {error && (
                     <div className="bg-red-50 border border-red-200 text-red-700 p-4 rounded-md flex items-center justify-between">
                         <p className="text-sm font-medium">{error}</p>
@@ -336,7 +344,7 @@ const Dashboard = () => {
                     </div>
                 )}
 
-                {/* 1. Top Section: 3 Spend & Active Cards */}
+                {/* 1. Top Section: 3 Spend & Active Cards : StatCards is a component that displays the spending and subscription data*/}
                 <StatCards
                     monthlySpend={monthlySpend}
                     annualSpend={annualSpend}
@@ -344,7 +352,7 @@ const Dashboard = () => {
                     loading={loading}
                 />
 
-                {/* 2. Upcoming Renewals Section */}
+                {/* 2. Upcoming Renewals Section : UpcomingAlerts is a component that displays upcoming subscription renewals */}
                 <UpcomingAlerts upcoming={upcomingRenewals} />
 
                 {/* 3. Middle Section: Category Breakdown Chart & All Subscriptions Table */}
@@ -424,7 +432,7 @@ const Dashboard = () => {
     );
 };
 
-/* ─── Root Route Redirect ─── */
+/* Root Route Redirect */
 const RootRedirect = () => {
     const { user, loading } = useAuth();
 
@@ -439,7 +447,7 @@ const RootRedirect = () => {
     return <Navigate to={user ? '/dashboard' : '/login'} replace />;
 };
 
-/* ─── Main App with Clean Routing (No Custom 404 Component) ─── */
+/* Main App with Clean Routing (No Custom 404 Component) */
 const App = () => {
     const { login, register } = useAuth();
 
@@ -459,10 +467,10 @@ const App = () => {
                 }
             />
 
-            {/* Root redirect */}
+            {/* Root redirect : it can be used to redirect the user to the appropriate page based on their authentication status */}
             <Route path="/" element={<RootRedirect />} />
 
-            {/* Standard fallback redirect */}
+            {/* Standard fallback redirect : This will redirect any unmatched routes to the root route */}
             <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
     );

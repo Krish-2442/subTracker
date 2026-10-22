@@ -1,11 +1,15 @@
-@import "tailwindcss";
+/* Import Tailwind CSS from node_modules */
+@import "tailwindcss"; 
 
+/* @layer base is for base styles for the application and it is the foundation for all other styles */
+/* -webkit-font-smoothing: antialiased; is a CSS property that improves the rendering of text on web pages by enabling subpixel antialiasing. */
+/* -moz-osx-font-smoothing: grayscale; is a CSS property that improves the rendering of text on web pages by enabling grayscale antialiasing. */
 @layer base {
     body {
         background-color: #f9fafb;
         color: #111827;
         font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-        -webkit-font-smoothing: antialiased;
+        -webkit-font-smoothing: antialiased; 
         -moz-osx-font-smoothing: grayscale;
     }
 }

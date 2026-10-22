@@ -24,3 +24,4 @@ app.get('/api/health', (req, res) => {
 app.use(errorMiddleware);
 
 export default app;
+

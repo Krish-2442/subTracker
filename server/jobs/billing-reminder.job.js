@@ -1,4 +1,4 @@
-import cron from 'node-cron';
+import cron from 'node-cron'; // cron-job scheduling library for Node.js
 import Subscription from '../models/subscription.model.js';
 import '../models/user.model.js';
 import { sendBillingReminderEmail } from '../utils/send-email.js';

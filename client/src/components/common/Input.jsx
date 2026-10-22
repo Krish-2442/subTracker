@@ -1,3 +1,4 @@
+// Input is a reusable component that renders a labeled input field with optional error message. It accepts props for label, id, error message, className for custom styling, and any other input attributes.
 const Input = ({ label, id, error, className = '', ...props }) => {
     return (
         <div className={className}>

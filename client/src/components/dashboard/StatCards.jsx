@@ -6,7 +6,7 @@ const StatCards = ({ monthlySpend = 0, annualSpend = 0, activeSubs = 0, summary 
 
     if (loading) {
         return (
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
                 <div className="bg-white border rounded-lg p-4 shadow-sm text-center text-sm text-gray-400">Loading cards...</div>
                 <div className="bg-white border rounded-lg p-4 shadow-sm text-center text-sm text-gray-400">Loading cards...</div>
                 <div className="bg-white border rounded-lg p-4 shadow-sm text-center text-sm text-gray-400">Loading cards...</div>
@@ -15,7 +15,7 @@ const StatCards = ({ monthlySpend = 0, annualSpend = 0, activeSubs = 0, summary 
     }
 
     return (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
             {/* Card 1: Monthly Spend */}
             <div className="bg-white border rounded-lg p-4 shadow-sm">
                 <p className="text-xs font-semibold uppercase tracking-wider text-gray-500">Monthly Spend</p>
